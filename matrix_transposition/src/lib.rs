@@ -1,11 +1,6 @@
 #[derive(Debug)]
-struct Matrix ((i32,i32),(i32,i32));
-
-fn main() {
-    let matrix = Matrix((1, 3), (4, 5));
-    println!("Original matrix {:?}", matrix);
-    println!("Transpose matrix {:?}", transpose(matrix));
-}
+#[warn(private_interfaces)]
+pub struct Matrix ((i32,i32),(i32,i32));
 
 pub fn transpose(m: Matrix) -> Matrix {
     let res = Matrix(
