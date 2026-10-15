@@ -10,7 +10,7 @@ pub fn pro(x: i8, y:i8) -> i32 {
     (x * y) as i32
 }
 
-pub fn quo(x:i32, y:i32) -> i32 {
+pub fn quo(x:f32, y:f32) -> f32 {
     x / y 
 }
 
