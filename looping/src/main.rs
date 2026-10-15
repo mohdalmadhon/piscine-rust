@@ -8,19 +8,20 @@ fn main() {
     let mut n: u32 = 0;
 
     loop {
-        n = n + 1;
-
         print_riddle();
+
+        buf.clear();
 
         io::stdin().read_line(&mut buf)
         .expect("please enter an input");
 
-        if buf.trim().eq_ignore_ascii_case(ANSWER)  {
-            println!("Number of trials: {}", n);
-            break;
-        } 
+        n += 1;
 
-        buf = "".to_string();
+        if buf.trim().eq_ignore_ascii_case(ANSWER) {
+            println!("Number of tries: {}", n);
+            break;
+        }
+
         continue;
     }
 }
