@@ -17,3 +17,15 @@ pub fn quo(x:i32, y:i32) -> i32 {
 pub fn rem(x:i32, y:i32) -> i32 {
     x % y
 }
+
+// #[cfg(test)]
+// mod test {
+//     use super::*;
+
+//     #[test]
+//     fn test_sum() {
+//         println!("sum: {}", sum(234, 2)); // 'sum: 236'
+//         println!("sum: {}", sum(1, 255));
+    
+//     }
+// }
