@@ -14,7 +14,7 @@ pub fn quo(x:f32, y:f32) -> f32 {
     x / y 
 }
 
-pub fn rem(x:i32, y:i32) -> i32 {
+pub fn rem(x:f32, y:f32) -> f32 {
     x % y
 }
 
