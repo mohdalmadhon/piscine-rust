@@ -1,7 +1,7 @@
 
 use std::io;
 
-const RIDDLE: &str = "I am the beginning of the end, and the end of time and space. I am essential to creation, and I surround every place";
+const RIDDLE: &str = "I am the beginning of the end, and the end of time and space. I am essential to creation, and I surround every place. What am I?";
 const ANSWER: &str = "The letter e";
 fn main() {
     let mut buf = String::new();
@@ -18,7 +18,7 @@ fn main() {
         n += 1;
 
         if buf.trim().eq_ignore_ascii_case(ANSWER) {
-            println!("Number of tries: {}", n);
+            println!("Number of trials: {}", n);
             break;
         }
 
