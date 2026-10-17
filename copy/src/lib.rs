@@ -1,36 +1,26 @@
-pub fn delete_and_backspace(s: &mut String) {
-    let mut str = String::new();
-    let mut chars = s.chars().peekable();
-    let mut counter: i32 = 0;
-    for c in chars {
-        if counter != 0 && c != '+' {
-            counter -= 1;
-            continue;
-        }
-        if c == '-' && str.len() != 0 {
-            str.pop();
-        } else if c == '+' {
-            counter += 1;
-        } else {
-            str.push(c);
-        }
-    }
-    
-    s.clear();
-    s.push_str(&str);
+pub fn nbr_function(c: i32) -> (i32, f64, f64) {
+    (
+        c,
+        (c as f64).exp(),
+        (c as f64).abs().ln(),
+    )
 }
 
+pub fn str_function(a: String) -> (String, String) {
+    let result = a
+        .split_whitespace()
+        .map(|s| s.parse::<f64>().unwrap().exp().to_string())
+        .collect::<Vec<String>>()
+        .join(" ");
 
-pub fn do_operations(v: &mut [String]) {
-    for operation in v.iter_mut() {
-        if let Some((left, right)) = operation.split_once('+') {
-            let result = left.parse::<i32>().unwrap()
-                + right.parse::<i32>().unwrap();
-            *operation = result.to_string();
-        } else if let Some((left, right)) = operation.split_once('-') {
-            let result = left.parse::<i32>().unwrap()
-                - right.parse::<i32>().unwrap();
-            *operation = result.to_string();
-        }
-    }
+    (a, result)
+}
+
+pub fn vec_function(b: Vec<i32>) -> (Vec<i32>, Vec<f64>) {
+    let result = b
+        .iter()
+        .map(|n| (*n as f64).abs().ln())
+        .collect::<Vec<f64>>();
+
+    (b, result)
 }
