@@ -125,4 +125,14 @@ pub fn vertical(player: char, table: [[char; 3]; 3]) -> bool {
 }
 
 pub fn tic_tac_toe(table: [[char; 3]; 3]) -> String {
-    for player in ['O
+    for player in ['O', 'X'] {
+        if diagonals(player, table)
+            || horizontal(player, table)
+            || vertical(player, table)
+        {
+            return format!("player {} won", player);
+        }
+    }
+
+    String::from("tie")
+}
