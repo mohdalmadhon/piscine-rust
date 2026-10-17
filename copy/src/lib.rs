@@ -1,26 +1,39 @@
-pub fn nbr_function(c: i32) -> (i32, f64, f64) {
-    (
-        c,
-        (c as f64).exp(),
-        (c as f64).abs().ln(),
-    )
+pub fn delete_and_backspace(s: &mut String) {
+    let mut finalString = String::new();
+    let mut counter = 0;
+    for character in s.chars() {
+        if counter != 0 && character != '+' {
+            counter -= 1;
+            continue;
+        }
+        match character {
+            '-' => {
+                finalString.pop();
+            },
+            '+' => {
+                counter += 1;
+            },
+            _ => {
+                finalString.push(character);
+            },
+        }
+    }
+    s.clear();
+    s.push_str(&finalString);
 }
 
-pub fn str_function(a: String) -> (String, String) {
-    let result = a
-        .split_whitespace()
-        .map(|s| s.parse::<f64>().unwrap().exp().to_string())
-        .collect::<Vec<String>>()
-        .join(" ");
 
-    (a, result)
-}
-
-pub fn vec_function(b: Vec<i32>) -> (Vec<i32>, Vec<f64>) {
-    let result = b
-        .iter()
-        .map(|n| (*n as f64).abs().ln())
-        .collect::<Vec<f64>>();
-
-    (b, result)
+pub fn do_operations(v: &mut Vec<String>) {
+    for i in 0..v.len() {
+        let equation = &v[i];
+        if equation.contains('+') {
+            let operands: Vec<&str> = equation.split('+').collect();
+            let result = operands[0].parse::<i32>().unwrap() + operands[1].parse::<i32>().unwrap();
+            v[i] = result.to_string();
+        } else if equation.contains('-') {
+            let operands: Vec<&str> = equation.split('-').collect();
+            let result = operands[0].parse::<i32>().unwrap() - operands[1].parse::<i32>().unwrap();
+            v[i] = result.to_string();
+        }
+    }
 }
