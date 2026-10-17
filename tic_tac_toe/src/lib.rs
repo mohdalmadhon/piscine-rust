@@ -1,72 +1,3 @@
-pub fn tic_tac_toe(table: [[char; 3]; 3]) -> String {
-    for column in table {
-        let mut counter: i32 = 0;
-        let mut previous: char = ' ';
-
-        for (i, spot) in column.iter().enumerate() {
-            if i == 0 {
-                counter += 1;
-                previous = *spot;
-                continue;
-            }
-            if *spot == previous && *spot != ' ' {
-                counter += 1;
-                previous = *spot;
-                if counter == 3 {
-                    return format!("player {} won", previous);
-                }
-            } else {
-                break;
-            }
-        }
-    }
-
-    for i in 0..3 {
-        let mut counter: i32 = 0;
-        let mut previous: char = ' ';
-
-        for j in 0..3 {
-            let spot = table[j][i];
-
-            if j == 0 {
-                counter += 1;
-                previous = spot;
-                continue;
-            }
-            if spot == previous && spot != ' ' {
-                counter += 1;
-                previous = spot;
-                if counter == 3 {
-                    return format!("player {} won", previous);
-                }
-            } else {
-                break;
-            }
-        }
-    }
-
-    for i in 0..3 {
-        if table[i][i] != ' ' && table[i][i] == table[0][0] {
-            if i == 2 {
-                return format!("player {} won", table[0][0]);
-            }
-        } else {
-            break;
-        }
-    }
-
-    for i in 0..3 {
-        if table[i][2 - i] != ' ' && table[i][2 - i] == table[0][2] {
-            if i == 2 {
-                return format!("player {} won", table[0][2]);
-            }
-        } else {
-            break;
-        }
-    }
-
-    format!("tie")
-}
 pub fn diagonals(player: char, table: [[char; 3]; 3]) -> bool {
     let mut counter: i32 = 0;
     for i in 0..3 {
@@ -135,4 +66,22 @@ pub fn tic_tac_toe(table: [[char; 3]; 3]) -> String {
     }
 
     String::from("tie")
+}
+
+fn main() {
+    println!(
+        "{}",
+        tic_tac_toe([['O', 'X', 'O'], ['O', 'P', 'X'], ['X', '#', 'X']])
+    );
+    // tie
+    println!(
+        "{}",
+        tic_tac_toe([['X', 'O', 'O'], ['X', 'O', 'O'], ['#', 'O', 'X']])
+    );
+    // player O won
+
+    let diag = [['O', 'O', 'X'], ['O', 'X', 'O'], ['X', '#', 'X']];
+
+    println!("{}", tic_tac_toe(diag));
+    // player X won
 }
