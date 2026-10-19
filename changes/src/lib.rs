@@ -1,3 +1,4 @@
+#[derive(Debug, Eq, PartialEq, Clone)]
 pub struct Light {
 	pub alias: String,
 	pub brightness: u8,
@@ -12,10 +13,10 @@ impl Light {
 	}
 }
 
-pub fn change_brightness(lights: &mut Vec<Light>, alias: &str, value: u8) {
+pub fn change_brightness(lights: &mut [Light], name: &str, brightness: u8) {
     for light in lights.iter_mut() {
-        if light.alias == alias {
-            light.brightness = value;
+        if light.alias == name {
+            light.brightness = brightness;
             break;
         }
     }
