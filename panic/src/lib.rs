@@ -1,4 +1,3 @@
-use std::fs::File;
 use std::io::ErrorKind;
 
 pub fn open_file(s: &str) -> File {
