@@ -1,58 +1,46 @@
-use chrono::Local;
+mod err;
+
+pub use err::{ParseErr, ReadErr};
+use std::error::Error;
+use std::fs;
 
 #[derive(Debug, Eq, PartialEq)]
-pub struct FormError {
-    pub form_values: (&'static str, String),
-    pub date: String,
-    pub err: &'static str,
-}
-
-impl FormError {
-    pub fn new(field_name: &'static str, field_value: String, err: &'static str) -> Self {
-        FormError {
-            form_values: (field_name, field_value),
-            date: Local::now().format("%Y-%m-%d %H:%M:%S").to_string(),
-            err,
-        }
-    }
+pub struct Task {
+    pub id: u32,
+    pub description: String,
+    pub level: u32,
 }
 
 #[derive(Debug, Eq, PartialEq)]
-pub struct Form {
-    pub name: String,
-    pub password: String,
+pub struct TodoList {
+    pub title: String,
+    pub tasks: Vec<Task>,
 }
 
-impl Form {
-    pub fn new(name: String, password: String) -> Self {
-        Form { name, password }
-    }
+impl TodoList {
+    pub fn get_todo(path: &str) -> Result<TodoList, Box<dyn Error>> {
+        let contents = fs::read_to_string(path).map_err(|e| ReadErr {
+            child_err: Box::new(e),
+        })?;
 
-    pub fn validate(&self) -> Result<(), FormError> {
-        if self.name.is_empty() {
-            return Err(FormError::new("name", self.name.clone(), "Username is empty"));
+        let parsed = json::parse(&contents).map_err(|e| ParseErr::Malformed(Box::new(e)))?;
+
+        if parsed["tasks"].is_empty() {
+            return Err(Box::new(ParseErr::Empty));
         }
 
-        if self.password.len() < 8 {
-            return Err(FormError::new(
-                "password",
-                self.password.clone(),
-                "Password should be at least 8 characters long",
-            ));
-        }
+        let tasks = parsed["tasks"]
+            .members()
+            .map(|t| Task {
+                id: t["id"].as_u32().unwrap_or_default(),
+                description: t["description"].as_str().unwrap_or_default().to_string(),
+                level: t["level"].as_u32().unwrap_or_default(),
+            })
+            .collect();
 
-        let has_letter = self.password.chars().any(|c| c.is_ascii_alphabetic());
-        let has_digit = self.password.chars().any(|c| c.is_ascii_digit());
-        let has_symbol = self.password.chars().any(|c| c.is_ascii_punctuation());
-
-        if !(has_letter && has_digit && has_symbol) {
-            return Err(FormError::new(
-                "password",
-                self.password.clone(),
-                "Password should be a combination of ASCII numbers, letters and symbols",
-            ));
-        }
-
-        Ok(())
+        Ok(TodoList {
+            title: parsed["title"].as_str().unwrap_or_default().to_string(),
+            tasks,
+        })
     }
 }
