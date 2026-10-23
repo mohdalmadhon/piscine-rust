@@ -1,17 +1,17 @@
 pub struct One {
-    first_layer: Option<Two>
+    pub first_layer: Option<Two>,
 }
 
 pub struct Two {
-    second_layer: Option<Three>
+    pub second_layer: Option<Three>,
 }
 
 pub struct Three {
-    third_layer: Option<Four>
+    pub third_layer: Option<Four>,
 }
 
 pub struct Four {
-    fourth_layer: Option<u16>
+    pub fourth_layer: Option<u16>,
 }
 
 impl One {
@@ -19,4 +19,3 @@ impl One {
         self.first_layer?.second_layer?.third_layer?.fourth_layer
     }
 }
-
