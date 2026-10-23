@@ -1,0 +1,57 @@
+    Blocking waiting for file lock on package cache
+   0.045558600s  INFO prepare_target{force=false package_id=ownership v0.1.0 (C:\Users\moham\development\gitea\piscine-rust\ownership) target="ownership"}: cargo::core::compiler::fingerprint: fingerprint error for ownership v0.1.0 (C:\Users\moham\development\gitea\piscine-rust\ownership)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("ownership", ["lib"], "C:\\Users\\moham\\development\\gitea\\piscine-rust\\ownership\\src\\lib.rs", Edition2024) }
+   0.065676300s  INFO prepare_target{force=false package_id=ownership v0.1.0 (C:\Users\moham\development\gitea\piscine-rust\ownership) target="ownership"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\moham\development\gitea\piscine-rust\ownership\target\debug\.fingerprint\ownership-e8d2eda02744a76f\lib-ownership`
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_libgit2_prerelease
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: git_midx_writer_dump
+  16: git_filter_source_repo
+  17: git_midx_writer_dump
+  18: BaseThreadInitThunk
+  19: RtlUserThreadStart
+   0.085595700s  INFO prepare_target{force=false package_id=ownership v0.1.0 (C:\Users\moham\development\gitea\piscine-rust\ownership) target="ownership"}: cargo::core::compiler::fingerprint: fingerprint error for ownership v0.1.0 (C:\Users\moham\development\gitea\piscine-rust\ownership)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("ownership", ["lib"], "C:\\Users\\moham\\development\\gitea\\piscine-rust\\ownership\\src\\lib.rs", Edition2024) }
+   0.085640700s  INFO prepare_target{force=false package_id=ownership v0.1.0 (C:\Users\moham\development\gitea\piscine-rust\ownership) target="ownership"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\moham\development\gitea\piscine-rust\ownership\target\debug\.fingerprint\ownership-92251099838c05cf\test-lib-ownership`
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_libgit2_prerelease
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: git_midx_writer_dump
+  16: git_filter_source_repo
+  17: git_midx_writer_dump
+  18: BaseThreadInitThunk
+  19: RtlUserThreadStart
+    Checking ownership v0.1.0 (C:\Users\moham\development\gitea\piscine-rust\ownership)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.43s

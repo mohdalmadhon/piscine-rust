@@ -1,0 +1,56 @@
+   0.038329900s  INFO prepare_target{force=false package_id=copy v0.1.0 (C:\Users\moham\development\gitea\piscine-rust\copy) target="copy"}: cargo::core::compiler::fingerprint: fingerprint error for copy v0.1.0 (C:\Users\moham\development\gitea\piscine-rust\copy)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("copy", ["lib"], "C:\\Users\\moham\\development\\gitea\\piscine-rust\\copy\\src\\lib.rs", Edition2024) }
+   0.051961300s  INFO prepare_target{force=false package_id=copy v0.1.0 (C:\Users\moham\development\gitea\piscine-rust\copy) target="copy"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\moham\development\gitea\piscine-rust\copy\target\debug\.fingerprint\copy-2909b1e3bc7ed282\lib-copy`
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_libgit2_prerelease
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: git_midx_writer_dump
+  16: git_filter_source_repo
+  17: git_midx_writer_dump
+  18: BaseThreadInitThunk
+  19: RtlUserThreadStart
+   0.072401600s  INFO prepare_target{force=false package_id=copy v0.1.0 (C:\Users\moham\development\gitea\piscine-rust\copy) target="copy"}: cargo::core::compiler::fingerprint: fingerprint error for copy v0.1.0 (C:\Users\moham\development\gitea\piscine-rust\copy)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("copy", ["lib"], "C:\\Users\\moham\\development\\gitea\\piscine-rust\\copy\\src\\lib.rs", Edition2024) }
+   0.072439500s  INFO prepare_target{force=false package_id=copy v0.1.0 (C:\Users\moham\development\gitea\piscine-rust\copy) target="copy"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\moham\development\gitea\piscine-rust\copy\target\debug\.fingerprint\copy-6c86074f3f606330\test-lib-copy`
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_libgit2_prerelease
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: git_midx_writer_dump
+  16: git_filter_source_repo
+  17: git_midx_writer_dump
+  18: BaseThreadInitThunk
+  19: RtlUserThreadStart
+    Checking copy v0.1.0 (C:\Users\moham\development\gitea\piscine-rust\copy)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.37s
