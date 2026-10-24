@@ -1,84 +1,76 @@
-pub use crate::mall::floor::{self, store};
 pub mod mall;
+pub use mall::*;
 
-pub fn biggest_store(mall: mall::Mall) -> store::Store {
-    let mut biggest: store::Store = store::Store {
-        name: "MyStore".to_string(),
-        square_meters: 0,
-        employees: vec![],
-    };
+use std::collections::HashMap;
 
-    for floor in mall.floors {
-        for store in floor.stores {
-            if store.square_meters > biggest.square_meters {
-                biggest = store;
-            }
-        }
-    }
-
-    return biggest;
+pub fn biggest_store(mall: &Mall) -> (String, Store) {
+    mall.floors
+        .values()
+        .flat_map(|floor| floor.stores.iter())
+        .max_by_key(|(_, store)| store.square_meters)
+        .map(|(name, store)| (name.clone(), store.clone()))
+        .unwrap()
 }
 
-pub fn highest_paid_employee(mall: mall::Mall) -> Vec<store::employee::Employee> {
-    let mut highest_paid:Vec<store::employee::Employee> = Vec::new();
+pub fn highest_paid_employee(mall: &Mall) -> Vec<(&str, Employee)> {
+    let employees: Vec<(&String, &Employee)> = mall
+        .floors
+        .values()
+        .flat_map(|floor| floor.stores.values())
+        .flat_map(|store| store.employees.iter())
+        .collect();
 
-    for floor in mall.floors{
-        for store in floor.stores{
-            for employee in store.employees{
-                if highest_paid.len() == 0 || employee.salary == highest_paid[0].salary{
-                    highest_paid.push(employee);
-                }
-                else if employee.salary > highest_paid[0].salary{
-                    highest_paid[0] = employee;
-                }
-            }
-        }
-    }
-    return highest_paid;
+    let max = employees
+        .iter()
+        .map(|(_, e)| e.salary)
+        .fold(f64::MIN, f64::max);
+
+    employees
+        .into_iter()
+        .filter(|(_, e)| e.salary == max)
+        .map(|(name, e)| (name.as_str(), *e))
+        .collect()
 }
 
-pub fn nbr_of_employees(mall: mall::Mall) -> usize {
-    let mut counter: usize = 0;
+pub fn nbr_of_employees(mall: &Mall) -> usize {
+    let employees: usize = mall
+        .floors
+        .values()
+        .flat_map(|floor| floor.stores.values())
+        .map(|store| store.employees.len())
+        .sum();
 
-    for floor in mall.floors{
-        for store in floor.stores{
-            counter += store.employees.len();
-        }
-    }
-
-    counter += mall.guards.len();
-
-    return  counter;
+    employees + mall.guards.len()
 }
 
-pub fn check_for_securities(mall: &mut mall::Mall, guards: Vec<mall::guard::Guard>) {
-    let mut mall_area:u64 = 0;
+pub fn check_for_securities(mall: &mut Mall, guards: HashMap<String, Guard>) {
+    let total_size: u64 = mall
+        .floors
+        .values()
+        .flat_map(|floor| floor.stores.values())
+        .map(|store| store.square_meters)
+        .sum();
 
-    for floor in &mall.floors {
-        for store in &floor.stores{
-            mall_area += store.square_meters;
-        }
-    }
+    let needed = ((total_size + 199) / 200) as usize;
 
-    let mut counter: u64 = 0;
-    for guard in guards{
-        if counter == 0 || mall_area / counter > 200 {
-            mall.guards.push(guard);
-            counter += 1;
-        }else{
+    for (name, guard) in guards {
+        if mall.guards.len() >= needed {
             break;
         }
+        mall.hire_guard(name, guard);
     }
 }
 
-pub fn cut_or_raise(mall: &mut mall::Mall) {
-    for floor in &mut mall.floors{
-        for store in &mut floor.stores{
-            for employee in &mut store.employees{
-                if employee.working_hours.1 - employee.working_hours.0 > 10{
-                    employee.salary += employee.salary * 0.1;
-                }else{
-                    employee.salary -= employee.salary * 0.1;
+pub fn cut_or_raise(mall: &mut Mall) {
+    for floor in mall.floors.values_mut() {
+        for store in floor.stores.values_mut() {
+            for employee in store.employees.values_mut() {
+                let (from, to) = employee.working_hours;
+                let change = employee.salary * 0.1;
+                if to - from >= 10 {
+                    employee.raise(change);
+                } else {
+                    employee.cut(change);
                 }
             }
         }
