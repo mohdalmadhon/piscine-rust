@@ -44,14 +44,9 @@ pub fn nbr_of_employees(mall: &Mall) -> usize {
 }
 
 pub fn check_for_securities(mall: &mut Mall, guards: HashMap<String, Guard>) {
-    let total_size: u64 = mall
-        .floors
-        .values()
-        .flat_map(|floor| floor.stores.values())
-        .map(|store| store.square_meters)
-        .sum();
+    let total_size: u64 = mall.floors.values().map(|floor| floor.size_limit).sum();
 
-    let needed = ((total_size + 199) / 200) as usize;
+    let needed = (total_size / 200) as usize; 
 
     for (name, guard) in guards {
         if mall.guards.len() >= needed {
