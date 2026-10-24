@@ -12,7 +12,7 @@ pub fn biggest_store(mall: &Mall) -> (String, Store) {
         .unwrap()
 }
 
-pub fn highest_paid_employee(mall: &Mall) -> Vec<(String, Employee)> {
+pub fn highest_paid_employee(mall: &Mall) -> Vec<(&str, Employee)> {
     let employees: Vec<(&String, &Employee)> = mall
         .floors
         .values()
@@ -28,7 +28,7 @@ pub fn highest_paid_employee(mall: &Mall) -> Vec<(String, Employee)> {
     employees
         .into_iter()
         .filter(|(_, e)| e.salary == max)
-        .map(|(name, e)| (name.clone(), *e))
+        .map(|(name, e)| (name.as_str(), *e))
         .collect()
 }
 
