@@ -52,6 +52,8 @@ pub(crate) fn cone_volume(base_radius: usize, height: usize) -> f64 {
 }
 }
 
+pub use areas_volumes::{GeometricalShapes, GeometricalVolumes};
+
 pub fn area_fit(
     (x,y): (usize, usize),
     kind: areas_volumes::GeometricalShapes,
@@ -90,4 +92,23 @@ pub fn volume_fit(
     };
 
     (volume * times as f64) <= box_volume
+}
+
+fn main() {
+    println!(
+        "Do 100 rectangles (2x1) fit in a 2 by 4 square? {}",
+        area_fit((2, 4), areas_volumes::GeometricalShapes::Rectangle, 100, (2, 1))
+    );
+    println!(
+        "Do 3 triangles (5 base and 3 height) fit in a 5 by 5 square? {}",
+        area_fit((5, 5), areas_volumes::GeometricalShapes::Triangle, 3, (5, 3))
+    );
+    println!(
+        "Do 3 spheres (2 radius) fit in a 5 by 5 by 5 box? {}",
+        volume_fit((5, 5, 5), areas_volumes::GeometricalVolumes::Sphere, 3, (2, 0, 0))
+    );
+    println!(
+        "Does 1 parallelepiped (6 base, 7 height and depth 4) fit in a 5 by 7 by 5 parallelepiped? {}",
+        volume_fit((5, 7, 5), areas_volumes::GeometricalVolumes::Parallelepiped, 1, (6, 7, 4))
+    );
 }
