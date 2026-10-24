@@ -1,20 +1,13 @@
 #[derive(Debug, Clone, PartialEq)]
 pub struct Boss {
     pub name: String,
-    pub age: u8,
-}
-
-pub fn new<S: Into<String>>(name: S, age: u8) -> Boss {
-    Boss {
-        name: name.into(),
-        age,
-    }
+    pub age: u32,
 }
 
 impl Boss {
-    pub fn new<S: Into<String>>(name: S, age: u8) -> Boss {
-        Boss {
-            name: name.into(),
+    pub fn new(name: &str, age: u32) -> Self {
+        Self {
+            name: name.to_string(),
             age,
         }
     }

@@ -1,4 +1,4 @@
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Role {
     Underboss,
     Caporegime,
@@ -6,37 +6,30 @@ pub enum Role {
     Associate,
 }
 
-#[derive(Debug, Clone, PartialEq)]
-pub struct Member {
-    pub name: String,
-    pub role: Role,
-    pub age: u8,
+impl Role {
+    pub fn power(&self) -> u32 {
+        match self {
+            Role::Underboss => 4,
+            Role::Caporegime => 3,
+            Role::Soldier => 2,
+            Role::Associate => 1,
+        }
+    }
 }
 
-// Standalone function for creating a new Member
-pub fn new<S: Into<String>>(name: S, role: Role, age: u8) -> Member {
-    Member {
-        name: name.into(),
-        role,
-        age,
-    }
+#[derive(Debug, Clone, PartialEq)]
+pub struct Member {
+    pub role: Role,
+    pub age: u32,
 }
 
 impl Member {
-    pub fn new<S: Into<String>>(name: S, role: Role, age: u8) -> Member {
-        Member {
-            name: name.into(),
-            role,
-            age,
-        }
-    }
-
     pub fn get_promotion(&mut self) {
         self.role = match self.role {
             Role::Associate => Role::Soldier,
             Role::Soldier => Role::Caporegime,
             Role::Caporegime => Role::Underboss,
-            Role::Underboss => self.role.clone(),
+            Role::Underboss => panic!("an Underboss cannot be promoted"),
         };
     }
 }
