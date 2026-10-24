@@ -1,4 +1,13 @@
-use json::object;
+use json::{object, JsonValue};
+
+pub struct Food {
+    pub name: String,
+    pub calories: (String, String),
+    pub fats: f64,
+    pub carbs: f64,
+    pub proteins: f64,
+    pub nbr_of_portions: f64,
+}
 
 pub fn calculate_macros(foods: &[Food]) -> json::JsonValue {
     let (mut cals, mut carbs, mut proteins, mut fats) = (0.0, 0.0, 0.0, 0.0);
