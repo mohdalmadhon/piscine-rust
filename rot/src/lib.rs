@@ -1,4 +1,4 @@
-pub fn rotate(input: String, key: i8) -> String {
+pub fn rotate(input: &str, key: i8) -> String {
     let shift = key.rem_euclid(26) as u8;
 
     input
