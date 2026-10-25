@@ -1,11 +1,13 @@
 pub fn is_pangram(s: &str) -> bool {
-    let chars: Vec<char> = s.chars().collect();
+    let chars: Vec<char> = s.to_ascii_lowercase().chars().collect();
+
     for i in 97..=122 {
-        let c: char = (i as u8) as char;
-        let ch: &char = &c;
-        if !chars.contains(&ch.to_ascii_lowercase()) {
+        let c = i as u8 as char;
+
+        if !chars.contains(&c) {
             return false;
         }
     }
-    return true;
+
+    true
 }
