@@ -6,6 +6,8 @@ pub fn num_to_ordinal(x: u32) -> String {
         return String::from("11th");
     } else if x == 12 {
         return String::from("12th");
+    } else if x == 13 {
+        return String::from("13th");
     }
     
     let str: String = match *c {
