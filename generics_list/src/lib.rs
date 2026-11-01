@@ -11,24 +11,22 @@ pub struct Node<T> {
 
 impl<T> List<T> {
     pub fn new() -> Self {
-        List{head:None}
+        List { head: None }
     }
-    
+
     pub fn push(&mut self, value: T) {
-        match self.head {
-            None => {
-                self.head = Some(Node{value, next: None});
-            },
-            _ => {
-                self.head = Some(Node {
-                    value,
-                    next: self.head.take().map(Box::new),
-                });
-            }
-        }
-        
+        self.head = Some(Node {
+            value,
+            next: self.head.take().map(Box::new),
+        });
     }
-    
+
+    pub fn pop(&mut self) {
+        if let Some(node) = self.head.take() {
+            self.head = node.next.map(|boxed| *boxed);
+        }
+    }
+
     pub fn len(&self) -> usize {
         let mut n = 0;
         let mut current = self.head.as_ref();
@@ -38,22 +36,4 @@ impl<T> List<T> {
         }
         n
     }
-    
-    pub fn pop(&mut self) {
-    if self.head.is_none() {
-        return;
-    }
-
-    if self.head.as_ref().unwrap().next.is_none() {
-        self.head = None;
-        return;
-    }
-
-    let mut current = self.head.as_mut().unwrap();
-    while current.next.as_ref().unwrap().next.is_some() {
-        current = current.next.as_deref_mut().unwrap();
-    }
-    current.next = None;
 }
-}
-
