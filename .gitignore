@@ -1,2 +1,21 @@
-./tester
+# Ignore everything by default
+*
+
+# Allow folders so git can look inside them
+!*/
+
+# Allow only source code and manifests
+!*.rs
+!Cargo.toml
+!README.md
+!.gitignore
+
+# Data files some exercises load with include_str! (e.g. commits.json)
+!*.json
+
+# Never push build output, lock files or executables
+target/
+Cargo.lock
 tester
+*.exe
+*.pdb
