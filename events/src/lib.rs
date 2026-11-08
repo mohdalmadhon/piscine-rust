@@ -1,14 +1,14 @@
-use chrono::Duration;
 use colored::*;
+use std::{fmt, time::Duration};
 
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum Position {
     Top,
     Bottom,
     Center,
 }
 
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct Notification {
     pub size: u32,
     pub color: (u8, u8, u8),
@@ -16,7 +16,7 @@ pub struct Notification {
     pub content: String,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Copy)]
 pub enum Event<'a> {
     Remainder(&'a str),
     Registration(Duration),
@@ -24,8 +24,21 @@ pub enum Event<'a> {
     Holiday,
 }
 
-impl<'a> Event<'a> {
-    pub fn notify(&self) -> Notification {
+impl fmt::Display for Notification {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let (r, g, b) = self.color;
+        write!(
+            f,
+            "({:?}, {}, {})",
+            self.position,
+            self.size,
+            self.content.truecolor(r, g, b)
+        )
+    }
+}
+
+impl Event<'_> {
+    pub fn notify(self) -> Notification {
         match self {
             Event::Remainder(text) => Notification {
                 size: 50,
@@ -34,19 +47,18 @@ impl<'a> Event<'a> {
                 content: text.to_string(),
             },
             Event::Registration(duration) => {
-                let seconds = duration.num_seconds();
-                let hours = seconds / 3600;
-                let minutes = (seconds % 3600) / 60;
-                let seconds = seconds % 60;
-                let content = format!(
-                    "You have {}H:{}M:{}S left before the registration ends",
-                    hours, minutes, seconds
-                );
+                let total = duration.as_secs();
+                let hours = total / 3600;
+                let minutes = (total % 3600) / 60;
+                let seconds = total % 60;
                 Notification {
                     size: 30,
                     color: (255, 2, 22),
                     position: Position::Top,
-                    content,
+                    content: format!(
+                        "You have {}H:{}M:{}S left before the registration ends",
+                        hours, minutes, seconds
+                    ),
                 }
             }
             Event::Appointment(text) => Notification {
@@ -62,19 +74,5 @@ impl<'a> Event<'a> {
                 content: "Enjoy your holiday".to_string(),
             },
         }
-    }
-}
-
-use std::fmt;
-
-impl fmt::Display for Notification {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let color = Color::TrueColor {
-            r: self.color.0,
-            g: self.color.1,
-            b: self.color.2,
-        };
-        let colored_content = self.content.clone().color(color);
-        write!(f, "({:?}, {}, {})", self.position, self.size, colored_content)
     }
 }
