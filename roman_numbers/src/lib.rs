@@ -15,6 +15,21 @@ pub enum RomanDigit {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct RomanNumber(pub Vec<RomanDigit>);
 
+impl RomanDigit {
+    fn value(self) -> u32 {
+        match self {
+            Nulla => 0,
+            I => 1,
+            V => 5,
+            X => 10,
+            L => 50,
+            C => 100,
+            D => 500,
+            M => 1000,
+        }
+    }
+}
+
 impl From<u32> for RomanNumber {
     fn from(value: u32) -> Self {
         if value == 0 {
@@ -50,3 +65,34 @@ impl From<u32> for RomanNumber {
         RomanNumber(digits)
     }
 }
+
+impl From<&RomanNumber> for u32 {
+    fn from(r: &RomanNumber) -> u32 {
+        let values: Vec<u32> = r.0.iter().map(|d| d.value()).collect();
+        values
+            .iter()
+            .enumerate()
+            .map(|(i, &v)| match values.get(i + 1) {
+                Some(&next) if next > v => -(v as i64),
+                _ => v as i64,
+            })
+            .sum::<i64>() as u32
+    }
+}
+
+impl Iterator for RomanNumber {
+    type Item = RomanNumber;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let next = u32::from(&*self).checked_add(1)?;
+        *self = RomanNumber::from(next);
+        Some(self.clone())
+    }
+}
+
+// fn main() {
+//     let mut number = RomanNumber::from(15);
+
+//     println!("{:?}", number);
+//     println!("{:?}", number.next());
+// }
